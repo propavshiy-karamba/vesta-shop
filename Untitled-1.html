@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VESTA — Clothing Store</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root{
+  --black:#111;
+  --white:#fff;
+  --gray:#777;
+  --light:#f5f5f3;
+  --border:#e5e5e5;
+  --accent:#c7ff35;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:#fff;
+  color:var(--black);
+}
+
+button,input,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* HEADER */
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--border);
+}
+
+.header-inner{
+  height:74px;
+  max-width:1400px;
+  margin:auto;
+  padding:0 30px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:30px;
+}
+
+.logo{
+  font-size:27px;
+  font-weight:900;
+  letter-spacing:5px;
+}
+
+.nav{
+  display:flex;
+  gap:30px;
+}
+
+.nav button{
+  border:0;
+  background:none;
+  font-weight:600;
+  font-size:14px;
+}
+
+.nav button:hover{
+  opacity:.55;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.icon-btn{
+  width:43px;
+  height:43px;
+  border:1px solid var(--border);
+  background:white;
+  border-radius:50%;
+  position:relative;
+  font-size:18px;
+}
+
+.badge{
+  position:absolute;
+  top:-3px;
+  right:-3px;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background:#111;
+  color:white;
+  font-size:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* HERO */
+
+.hero{
+  min-height:680px;
+  background:
+    linear-gradient(90deg,rgba(0,0,0,.65),rgba(0,0,0,.05)),
+    url("https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=1800&q=90")
+    center/cover;
+  color:white;
+  display:flex;
+  align-items:center;
+}
+
+.hero-content{
+  max-width:1400px;
+  width:100%;
+  margin:auto;
+  padding:70px 30px;
+}
+
+.hero-label{
+  font-size:13px;
+  letter-spacing:3px;
+  margin-bottom:20px;
+  text-transform:uppercase;
+}
+
+.hero h1{
+  font-size:clamp(55px,8vw,110px);
+  line-height:.9;
+  max-width:900px;
+  letter-spacing:-5px;
+  margin-bottom:30px;
+}
+
+.hero p{
+  max-width:500px;
+  font-size:17px;
+  line-height:1.7;
+  color:#ddd;
+  margin-bottom:35px;
+}
+
+.primary-btn{
+  border:0;
+  background:white;
+  color:#111;
+  padding:16px 28px;
+  border-radius:40px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.primary-btn:hover{
+  transform:translateY(-2px);
+}
+
+/* BENEFITS */
+
+.benefits{
+  max-width:1400px;
+  margin:auto;
+  padding:25px 30px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  border-bottom:1px solid var(--border);
+}
+
+.benefit{
+  padding:20px;
+}
+
+.benefit strong{
+  display:block;
+  margin-bottom:6px;
+}
+
+.benefit span{
+  color:var(--gray);
+  font-size:13px;
+}
+
+/* CATALOG */
+
+.catalog{
+  max-width:1400px;
+  margin:auto;
+  padding:90px 30px;
+}
+
+.catalog-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:30px;
+  margin-bottom:35px;
+}
+
+.catalog-title small{
+  color:#999;
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+
+.catalog-title h2{
+  font-size:48px;
+  margin-top:8px;
+  letter-spacing:-2px;
+}
+
+.search{
+  width:290px;
+  border:1px solid var(--border);
+  border-radius:40px;
+  padding:14px 20px;
+  outline:none;
+}
+
+.categories{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-bottom:35px;
+}
+
+.category{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:30px;
+  padding:11px 19px;
+  transition:.2s;
+}
+
+.category:hover,
+.category.active{
+  background:#111;
+  color:white;
+  border-color:#111;
+}
+
+/* PRODUCTS */
+
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:22px;
+}
+
+.product{
+  min-width:0;
+}
+
+.product-image{
+  height:470px;
+  position:relative;
+  overflow:hidden;
+  background:#f0f0f0;
+}
+
+.product-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.5s;
+}
+
+.product:hover img{
+  transform:scale(1.04);
+}
+
+.favorite{
+  position:absolute;
+  top:15px;
+  right:15px;
+  width:42px;
+  height:42px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  font-size:19px;
+  z-index:2;
+}
+
+.favorite.active{
+  color:#e11;
+}
+
+.product-info{
+  padding:16px 2px;
+}
+
+.product-category{
+  color:#999;
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  margin-bottom:7px;
+}
+
+.product-name{
+  font-size:16px;
+  font-weight:700;
+  margin-bottom:8px;
+}
+
+.product-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.price{
+  font-weight:800;
+}
+
+.add-btn{
+  border:0;
+  background:#111;
+  color:white;
+  border-radius:30px;
+  padding:10px 15px;
+  font-size:12px;
+  font-weight:700;
+}
+
+/* PRODUCT MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal.show{
+  display:flex;
+}
+
+.product-modal{
+  width:min(900px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:white;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+
+.modal-image{
+  min-height:600px;
+}
+
+.modal-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.modal-info{
+  padding:45px;
+  position:relative;
+}
+
+.close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:#eee;
+}
+
+.modal-info h2{
+  font-size:34px;
+  margin:25px 0 10px;
+}
+
+.modal-price{
+  font-size:24px;
+  font-weight:800;
+  margin-bottom:30px;
+}
+
+.sizes{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin:15px 0 30px;
+}
+
+.size{
+  min-width:48px;
+  padding:12px;
+  border:1px solid #ddd;
+  background:white;
+}
+
+.size.selected{
+  background:#111;
+  color:white;
+}
+
+/* CART */
+
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  z-index:400;
+  display:none;
+}
+
+.overlay.show{
+  display:block;
+}
+
+.cart{
+  position:fixed;
+  right:0;
+  top:0;
+  bottom:0;
+  width:min(470px,100%);
+  background:white;
+  z-index:450;
+  transform:translateX(100%);
+  transition:.3s;
+  padding:25px;
+  display:flex;
+  flex-direction:column;
+}
+
+.cart.show{
+  transform:translateX(0);
+}
+
+.cart-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding-bottom:20px;
+  border-bottom:1px solid var(--border);
+}
+
+.cart-header h2{
+  font-size:25px;
+}
+
+.cart-items{
+  flex:1;
+  overflow:auto;
+}
+
+.cart-item{
+  display:grid;
+  grid-template-columns:75px 1fr auto;
+  gap:14px;
+  padding:18px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.cart-item img{
+  width:75px;
+  height:90px;
+  object-fit:cover;
+}
+
+.cart-name{
+  font-weight:700;
+  font-size:14px;
+  margin-bottom:7px;
+}
+
+.cart-size{
+  color:#888;
+  font-size:12px;
+}
+
+.quantity{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  margin-top:12px;
+}
+
+.quantity button{
+  width:27px;
+  height:27px;
+  border:1px solid #ddd;
+  background:white;
+}
+
+.remove{
+  border:0;
+  background:none;
+  color:#999;
+  font-size:12px;
+}
+
+.cart-footer{
+  border-top:1px solid var(--border);
+  padding-top:20px;
+}
+
+.cart-total{
+  display:flex;
+  justify-content:space-between;
+  font-size:21px;
+  font-weight:800;
+  margin-bottom:18px;
+}
+
+.checkout-btn{
+  width:100%;
+  border:0;
+  padding:17px;
+  border-radius:10px;
+  background:#111;
+  color:white;
+  font-weight:800;
+}
+
+.empty{
+  text-align:center;
+  color:#999;
+  padding:80px 20px;
+}
+
+/* CHECKOUT */
+
+.checkout-box{
+  background:white;
+  width:min(550px,100%);
+  padding:35px;
+  border-radius:15px;
+}
+
+.checkout-box h2{
+  margin-bottom:25px;
+}
+
+.field{
+  margin-bottom:15px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  color:#666;
+  margin-bottom:6px;
+}
+
+.field input{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd;
+  outline:none;
+}
+
+.submit{
+  width:100%;
+  padding:15px;
+  background:#111;
+  color:white;
+  border:0;
+  margin-top:10px;
+  font-weight:800;
+}
+
+/* FOOTER */
+
+footer{
+  background:#111;
+  color:white;
+  padding:70px 30px;
+}
+
+.footer-inner{
+  max-width:1400px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  gap:30px;
+}
+
+.footer-logo{
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:5px;
+}
+
+footer p{
+  color:#888;
+  max-width:350px;
+  line-height:1.6;
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+  .products{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .product-image{
+    height:430px;
+  }
+
+  .nav{
+    display:none;
+  }
+}
+
+@media(max-width:650px){
+  .header-inner{
+    padding:0 16px;
+  }
+
+  .logo{
+    font-size:21px;
+  }
+
+  .hero{
+    min-height:590px;
+  }
+
+  .hero-content{
+    padding:50px 20px;
+  }
+
+  .hero h1{
+    font-size:55px;
+    letter-spacing:-3px;
+  }
+
+  .benefits{
+    grid-template-columns:1fr;
+    padding:15px;
+  }
+
+  .catalog{
+    padding:60px 16px;
+  }
+
+  .catalog-top{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .catalog-title h2{
+    font-size:37px;
+  }
+
+  .search{
+    width:100%;
+  }
+
+  .products{
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+
+  .product-image{
+    height:270px;
+  }
+
+  .product-info{
+    padding:12px 0;
+  }
+
+  .product-name{
+    font-size:13px;
+  }
+
+  .add-btn{
+    padding:8px 10px;
+  }
+
+  .product-modal{
+    grid-template-columns:1fr;
+    max-height:95vh;
+  }
+
+  .modal-image{
+    height:350px;
+    min-height:0;
+  }
+
+  .modal-info{
+    padding:25px;
+  }
+
+  .footer-inner{
+    flex-direction:column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<header class="header">
+  <div class="header-inner">
+
+    <div class="logo">VESTA</div>
+
+    <nav class="nav">
+      <button onclick="setCategory('Все')">Каталог</button>
+      <button onclick="setCategory('Женское')">Женское</button>
+      <button onclick="setCategory('Мужское')">Мужское</button>
+      <button onclick="setCategory('Обувь')">Обувь</button>
+      <button onclick="setCategory('Аксессуары')">Аксессуары</button>
+    </nav>
+
+    <div class="header-actions">
+
+      <button class="icon-btn" onclick="scrollToCatalog()">
+        🔍
+      </button>
+
+      <button class="icon-btn" onclick="openCart()">
+        🛒
+        <span class="badge" id="cartCount">0</span>
+      </button>
+
+    </div>
+
+  </div>
+</header>
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div class="hero-label">
+      VESTA / NEW COLLECTION 2026
+    </div>
+
+    <h1>
+      WEAR<br>
+      YOUR<br>
+      STORY.
+    </h1>
+
+    <p>
+      Минималистичная одежда для тех, кто создаёт
+      собственные правила. Новая коллекция уже доступна.
+    </p>
+
+    <button class="primary-btn" onclick="scrollToCatalog()">
+      Смотреть коллекцию →
+    </button>
+
+  </div>
+
+</section>
+
+<!-- BENEFITS -->
+
+<section class="benefits">
+
+  <div class="benefit">
+    <strong>Бесплатная доставка</strong>
+    <span>При заказе от 100 €</span>
+  </div>
+
+  <div class="benefit">
+    <strong>Возврат 30 дней</strong>
+    <span>Без лишних вопросов</span>
+  </div>
+
+  <div class="benefit">
+    <strong>Безопасная оплата</strong>
+    <span>Ваши данные защищены</span>
+  </div>
+
+</section>
+
+<!-- CATALOG -->
+
+<main class="catalog" id="catalog">
+
+  <div class="catalog-top">
+
+    <div class="catalog-title">
+      <small>Collection 2026</small>
+      <h2>Новая коллекция</h2>
+    </div>
+
+    <input
+      class="search"
+      id="search"
+      placeholder="Поиск одежды..."
+      oninput="renderProducts()"
+    >
+
+  </div>
+
+  <div class="categories">
+
+    <button
+      class="category active"
+      onclick="setCategory('Все',this)">
+      Все
+    </button>
+
+    <button
+      class="category"
+      onclick="setCategory('Женское',this)">
+      Женское
+    </button>
+
+    <button
+      class="category"
+      onclick="setCategory('Мужское',this)">
+      Мужское
+    </button>
+
+    <button
+      class="category"
+      onclick="setCategory('Обувь',this)">
+      Обувь
+    </button>
+
+    <button
+      class="category"
+      onclick="setCategory('Аксессуары',this)">
+      Аксессуары
+    </button>
+
+  </div>
+
+  <div class="products" id="products"></div>
+
+</main>
+
+<!-- PRODUCT MODAL -->
+
+<div class="modal" id="productModal">
+
+  <div class="product-modal">
+
+    <div class="modal-image">
+      <img id="modalImage" src="">
+    </div>
+
+    <div class="modal-info">
+
+      <button class="close" onclick="closeProduct()">×</button>
+
+      <div class="product-category" id="modalCategory"></div>
+
+      <h2 id="modalName"></h2>
+
+      <div class="modal-price" id="modalPrice"></div>
+
+      <p style="color:#777;line-height:1.7;margin-bottom:25px">
+        Современный крой, качественные материалы и универсальный
+        дизайн. Идеально подходит для повседневного образа.
+      </p>
+
+      <strong>Выберите размер:</strong>
+
+      <div class="sizes">
+        <button class="size" onclick="selectSize(this)">XS</button>
+        <button class="size" onclick="selectSize(this)">S</button>
+        <button class="size selected" onclick="selectSize(this)">M</button>
+        <button class="size" onclick="selectSize(this)">L</button>
+        <button class="size" onclick="selectSize(this)">XL</button>
+      </div>
+
+      <button
+        class="checkout-btn"
+        id="modalAddButton">
+        Добавить в корзину
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- OVERLAY -->
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<!-- CART -->
+
+<aside class="cart" id="cart">
+
+  <div class="cart-header">
+
+    <h2>Корзина</h2>
+
+    <button class="close" onclick="closeCart()">×</button>
+
+  </div>
+
+  <div class="cart-items" id="cartItems"></div>
+
+  <div class="cart-footer">
+
+    <div class="cart-total">
+      <span>Итого</span>
+      <span id="cartTotal">0 €</span>
+    </div>
+
+    <button class="checkout-btn" onclick="openCheckout()">
+      Оформить заказ
+    </button>
+
+  </div>
+
+</aside>
+
+<!-- CHECKOUT -->
+
+<div class="modal" id="checkoutModal">
+
+  <div class="checkout-box">
+
+    <button class="close" onclick="closeCheckout()">×</button>
+
+    <h2>Оформление заказа</h2>
+
+    <div class="field">
+      <label>Имя и фамилия</label>
+      <input id="customerName" placeholder="Иван Иванов">
+    </div>
+
+    <div class="field">
+      <label>Email</label>
+      <input id="customerEmail" type="email" placeholder="you@example.com">
+    </div>
+
+    <div class="field">
+      <label>Телефон</label>
+      <input id="customerPhone" placeholder="+31 6 12345678">
+    </div>
+
+    <div class="field">
+      <label>Адрес доставки</label>
+      <input id="customerAddress" placeholder="Улица, дом, индекс, город">
+    </div>
+
+    <button class="submit" onclick="placeOrder()">
+      Подтвердить заказ
+    </button>
+
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+
+  <div class="footer-inner">
+
+    <div>
+      <div class="footer-logo">VESTA</div>
+      <p style="margin-top:15px">
+        Современная одежда. Минимализм.
+        Качество. Твой стиль.
+      </p>
+    </div>
+
+    <div>
+      <p>© 2026 VESTA. Все права защищены.</p>
+    </div>
+
+  </div>
+
+</footer>
+
+<script>
+
+/* PRODUCTS */
+
+const products = [
+
+  {
+    id:1,
+    name:"Oversized Black T-Shirt",
+    category:"Мужское",
+    price:35,
+    image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:2,
+    name:"Premium Beige Hoodie",
+    category:"Мужское",
+    price:79,
+    image:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:3,
+    name:"Classic Denim",
+    category:"Мужское",
+    price:89,
+    image:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:4,
+    name:"Minimal White Shirt",
+    category:"Женское",
+    price:69,
+    image:"https://images.unsplash.com/photo-1596755389378-c31d21fd1273?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:5,
+    name:"Elegant Black Dress",
+    category:"Женское",
+    price:119,
+    image:"https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:6,
+    name:"Urban Sneakers",
+    category:"Обувь",
+    price:129,
+    image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:7,
+    name:"Leather Shoulder Bag",
+    category:"Аксессуары",
+    price:95,
+    image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
+  },
+
+  {
+    id:8,
+    name:"Classic Cap",
+    category:"Аксессуары",
+    price:29,
+    image:"https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=900&q=85"
+  }
+
+];
+
+let cart =
+  JSON.parse(localStorage.getItem("vestaCart")) || [];
+
+let favorites =
+  JSON.parse(localStorage.getItem("vestaFavorites")) || [];
+
+let currentCategory = "Все";
+let selectedProduct = null;
+
+/* RENDER PRODUCTS */
+
+function renderProducts(){
+
+  const container =
+    document.getElementById("products");
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase();
+
+  const filtered =
+    products.filter(product => {
+
+      const category =
+        currentCategory === "Все" ||
+        product.category === currentCategory;
+
+      const searchMatch =
+        product.name
+          .toLowerCase()
+          .includes(search);
+
+      return category && searchMatch;
+
+    });
+
+  container.innerHTML = "";
+
+  filtered.forEach(product => {
+
+    const favorite =
+      favorites.includes(product.id);
+
+    container.innerHTML += `
+
+      <article class="product">
+
+        <div
+          class="product-image"
+          onclick="openProduct(${product.id})"
+          style="cursor:pointer"
+        >
+
+          <button
+            class="favorite ${favorite ? "active" : ""}"
+            onclick="event.stopPropagation();toggleFavorite(${product.id})"
+          >
+            ${favorite ? "♥" : "♡"}
+          </button>
+
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+            loading="lazy"
+          >
+
+        </div>
+
+        <div class="product-info">
+
+          <div class="product-category">
+            ${product.category}
+          </div>
+
+          <div class="product-name">
+            ${product.name}
+          </div>
+
+          <div class="product-bottom">
+
+            <div class="price">
+              ${product.price} €
+            </div>
+
+            <button
+              class="add-btn"
+              onclick="openProduct(${product.id})"
+            >
+              Выбрать
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  });
+
+}
+
+/* CATEGORY */
+
+function setCategory(category, button){
+
+  currentCategory = category;
+
+  document
+    .querySelectorAll(".category")
+    .forEach(btn =>
+      btn.classList.remove("active")
+    );
+
+  if(button){
+    button.classList.add("active");
+  }
+
+  renderProducts();
+}
+
+/* FAVORITES */
+
+function toggleFavorite(id){
+
+  if(favorites.includes(id)){
+    favorites =
+      favorites.filter(item => item !== id);
+  }else{
+    favorites.push(id);
+  }
+
+  localStorage.setItem(
+    "vestaFavorites",
+    JSON.stringify(favorites)
+  );
+
+  renderProducts();
+}
+
+/* PRODUCT MODAL */
+
+function openProduct(id){
+
+  const product =
+    products.find(item => item.id === id);
+
+  selectedProduct = product;
+
+  document.getElementById("modalImage").src =
+    product.image;
+
+  document.getElementById("modalName").textContent =
+    product.name;
+
+  document.getElementById("modalPrice").textContent =
+    product.price + " €";
+
+  document.getElementById("modalCategory").textContent =
+    product.category;
+
+  document
+    .getElementById("productModal")
+    .classList.add("show");
+
+}
+
+function closeProduct(){
+
+  document
+    .getElementById("productModal")
+    .classList.remove("show");
+
+}
+
+function selectSize(button){
+
+  document
+    .querySelectorAll(".size")
+    .forEach(btn =>
+      btn.classList.remove("selected")
+    );
+
+  button.classList.add("selected");
+}
+
+/* ADD TO CART */
+
+document.getElementById("modalAddButton")
+  .addEventListener("click", () => {
+
+    const size =
+      document
+        .querySelector(".size.selected")
+        .textContent;
+
+    const existing =
+      cart.find(item =>
+        item.id === selectedProduct.id &&
+        item.size === size
+      );
+
+    if(existing){
+      existing.quantity++;
+    }else{
+      cart.push({
+        ...selectedProduct,
+        size,
+        quantity:1
+      });
+    }
+
+    saveCart();
+    updateCart();
+
+    closeProduct();
+    openCart();
+
+  });
+
+/* CART */
+
+function saveCart(){
+
+  localStorage.setItem(
+    "vestaCart",
+    JSON.stringify(cart)
+  );
+
+}
+
+function updateCart(){
+
+  const container =
+    document.getElementById("cartItems");
+
+  let total = 0;
+  let count = 0;
+
+  container.innerHTML = "";
+
+  if(cart.length === 0){
+
+    container.innerHTML =
+      `<div class="empty">
+        Корзина пока пуста
+      </div>`;
+
+  }
+
+  cart.forEach(item => {
+
+    total +=
+      item.price * item.quantity;
+
+    count += item.quantity;
+
+    container.innerHTML += `
+
+      <div class="cart-item">
+
+        <img src="${item.image}">
+
+        <div>
+
+          <div class="cart-name">
+            ${item.name}
+          </div>
+
+          <div class="cart-size">
+            Размер: ${item.size}
+          </div>
+
+          <div class="quantity">
+
+            <button
+              onclick="changeQuantity(${item.id},'${item.size}',-1)"
+            >
+              −
+            </button>
+
+            <span>${item.quantity}</span>
+
+            <button
+              onclick="changeQuantity(${item.id},'${item.size}',1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <button
+          class="remove"
+          onclick="removeItem(${item.id},'${item.size}')"
+        >
+          ×
+        </button>
+
+      </div>
+
+    `;
+
+  });
+
+  document.getElementById("cartTotal")
+    .textContent = total + " €";
+
+  document.getElementById("cartCount")
+    .textContent = count;
+
+  saveCart();
+
+}
+
+/* QUANTITY */
+
+function changeQuantity(id,size,change){
+
+  const item =
+    cart.find(item =>
+      item.id === id &&
+      item.size === size
+    );
+
+  if(!item) return;
+
+  item.quantity += change;
+
+  if(item.quantity <= 0){
+
+    cart =
+      cart.filter(item =>
+        !(item.id === id && item.size === size)
+      );
+
+  }
+
+  updateCart();
+
+}
+
+function removeItem(id,size){
+
+  cart =
+    cart.filter(item =>
+      !(item.id === id && item.size === size)
+    );
+
+  updateCart();
+
+}
+
+/* CART OPEN */
+
+function openCart(){
+
+  document
+    .getElementById("cart")
+    .classList.add("show");
+
+  document
+    .getElementById("overlay")
+    .classList.add("show");
+
+}
+
+function closeCart(){
+
+  document
+    .getElementById("cart")
+    .classList.remove("show");
+
+  document
+    .getElementById("overlay")
+    .classList.remove("show");
+
+}
+
+/* CHECKOUT */
+
+function openCheckout(){
+
+  if(cart.length === 0){
+
+    alert("Корзина пуста.");
+
+    return;
+  }
+
+  document
+    .getElementById("checkoutModal")
+    .classList.add("show");
+
+}
+
+function closeCheckout(){
+
+  document
+    .getElementById("checkoutModal")
+    .classList.remove("show");
+
+}
+
+function placeOrder(){
+
+  const name =
+    document.getElementById("customerName")
+      .value.trim();
+
+  const email =
+    document.getElementById("customerEmail")
+      .value.trim();
+
+  const phone =
+    document.getElementById("customerPhone")
+      .value.trim();
+
+  const address =
+    document.getElementById("customerAddress")
+      .value.trim();
+
+  if(!name || !email || !phone || !address){
+
+    alert("Пожалуйста, заполните все поля.");
+
+    return;
+  }
+
+  const orderNumber =
+    "VST-" +
+    Math.floor(
+      100000 + Math.random() * 900000
+    );
+
+  alert(
+    "Спасибо за заказ, " +
+    name +
+    "!\n\n" +
+    "Номер заказа: " +
+    orderNumber +
+    "\n\n" +
+    "Мы отправили подтверждение на " +
+    email
+  );
+
+  cart = [];
+
+  updateCart();
+
+  closeCheckout();
+  closeCart();
+
+}
+
+/* SCROLL */
+
+function scrollToCatalog(){
+
+  document
+    .getElementById("catalog")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+
+}
+
+/* START */
+
+renderProducts();
+updateCart();
+
+</script>
+
+</body>
+</html>
